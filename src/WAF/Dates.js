@@ -15,7 +15,7 @@
 */
 // WARNING : ISOToDate is published to the global scope
 
-function ISOToDate(string) 
+function ISOToDate(string)
 {
 	var dd = new Date();
 	dd.setISO(string);
@@ -30,11 +30,6 @@ function stringToSimpleDate(string)
 	if (arr.length < 3)
 		return null;
 	return new Date(Number(arr[2]), Number(arr[1])-1, Number(arr[0]));
-}
-
-
-Date.prototype.toJSON = function(key){
-	return this.toISO()+","+this.toSimpleDateString();
 }
 
 Date.prototype.toSimpleDateString = function()
