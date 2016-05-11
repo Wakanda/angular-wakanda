@@ -1,6 +1,5 @@
-app.controller('TodoController', function($scope, WakandaManager) {
-  WakandaManager.ready().then(function() {
-    var ds = WakandaManager.$wakanda.$ds;
+app.controller('TodoController', function($scope, $wakandaManager) {
+  $wakandaManager.getCatalog().then(function(ds) {
 
     ds.Item.$all().$promise.then(function(event) {
       $scope.tasks = event.result;

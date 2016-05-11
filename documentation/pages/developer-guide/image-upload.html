@@ -15,12 +15,8 @@
 <snippets path="documentation/snippets/developer-guide/image-upload" files="['index.html', 'app.js']"></snippets>
 
 <p>
-  The image is then saved on Wakanda Server, and you can access it with an URI.
-</p>
-
-<p>
-  <strong>Do not forget to call <code>$save()</code> after <code>$upload()</code> promise
-  resolved or the entity won't keep the uploaded image.</strong>
+  The image is then saved on Wakanda Server, and you can access it with an URI. You don't need
+  to call <code>$save()</code> on the entity, <code>$upload()</code> already does it.
 </p>
 
 <h2>Retrieving image</h2>

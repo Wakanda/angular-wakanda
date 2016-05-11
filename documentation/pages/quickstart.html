@@ -36,61 +36,67 @@
   <img src="./images/documentation/quickstart/explorer.png" />
 </div>
 
-<h2>The <code>WakandaManager</code> service</h2>
+<h2>The <code>$wakandaManager</code> factory</h2>
 <p>
-  On the scaffolded application when creating a new solution, there is a <code>WakandaManager</code>
-  service avalaible on <code>web/app/scripts/app.js</code> file. This service aimed at giving
-  you a simple way to use your <code>$wakanda</code> instance object everywhere
-  in your application.
+  <code>$wakandaManager</code> is a factory to use Angular-Wakanda in an efficient way <strong>with
+  a router</strong> like <code>ui-router</code> or <code>ngRoute</code>. It provides some
+  helper methods, that returns promise, to be sure that some treatments are done,
+  or some conditions met, <strong>before the route resolves.</strong>
+</p>
+
+<p>
+  So, it allows you to prepare something to inject, like the dataStore, or to check
+  for authentication logic at route (or state for <code>ui-router</code>) level.
 </p>
 <p>
-  It will init <code>$wakanda</code> and exposes it through <code>WakandaManager.$wakanda</code>
-  property. It exposes a promise indicating if <code>$wakanda</code> has finished initializing
-  or not.
+  See the complete <a href="#/doc/api-reference/wakanda-manager">$wakandaManager factory
+  API Reference</a> for more details and a complete documentation.
 </p>
 <p>
-  You can use this service in two different ways :
+  You can use this factoruy in two different ways :
   <ul>
     <li>
       By directly injecting it on a component, putting your code on the callback called
-      when <code>WakandaManager</code> promise is resolved
+      when <code>$wakandaManager</code> promise is resolved
     </li>
     <li>
-      By letting your router resolving the promise and injecting the service when
-      it resolves
+      By letting your router resolving promises and injecting their result into
+      controllers
     </li>
   </ul>
 </p>
 
-<pre><code class="language-javascript" prism>//Injecting WakandaManager directly on a component
-app.controller('myController', function ($scope, WakandaManager) {
-  WakandaManager.ready().then(function () {
-    var $wakanda = WakandaManager.$wakanda;
-    var ds = $wakanda.$ds; //ds stands for dataStore, we will see it in the following examples
-  });
-});
-
-//Injecting with resolve property of a route. Here with ngRoute
-app.config(function ($routeProvider) {
-  $routeProvider
-    .when('/', {
+<pre><code class="language-javascript" prism>//Recommended - Injecting with resolve property of a route/state. Here with ui-router
+app.config(function ($stateProvider) {
+  $stateProvider
+    .state('home', {
+      url: 'home',
       templateUrl: 'home.html',
       controller: 'homeController',
       resolve: {
-        manager: function (WakandaManager) {
-          return WakandaManager.ready();
+        ds: function ($wakandaManager) {
+          return $wakandaManager.getCatalog();
         }
       }
     });
 })
-.controller('homeController', function($scope, manager) {
-  var $wakanda = manager.$wakanda;
+.controller('homeController', function($scope, ds) {
+  //ds.Company.$query...
+});
+
+//OR
+
+//Injecting $wakandaManager directly on a component
+app.controller('myController', function ($scope, $wakandaManager) {
+  $wakandaManager.getCatalog().then(function (ds) {
+    //ds stands for dataStore, we will see it in the following examples
+  });
 });</code></pre>
 
 <p>
-  In this quickstart, we will directly inject <code>WakandaManager</code> service
-  on the controller. But for a real application, it is strongly advised to resolve it
-  on router.
+  In this quickstart, we will directly inject <code>$wakandaManager</code> factory
+  on the controller, because we only have one, on a single page. But for a real
+  application, it is strongly advised to use a router with its resolver.
 </p>
 
 <h2>Retrieving data</h2>
@@ -101,7 +107,7 @@ app.config(function ($routeProvider) {
   <br />
   Then, on the <code>web/app/scripts/app.js</code>, remove <code>myController</code>
   and add a <code>TodoController</code> that retrieves all items on the dataclass
-  with <code>$all</code> method.
+  with <code>$all()</code> method.
 </p>
 
 <snippets path="documentation/snippets/quickstart/01/" files="['index.html', 'app.js']"></snippets>
@@ -111,7 +117,9 @@ app.config(function ($routeProvider) {
   <ul>
     <li>
       Angular-Wakanda needs to be initialized before using its API. That's why we need to
-      embed our code in a callback called when <code>$wakanda.init()</code> promise is resolved.
+      embed our code in a callback called when <code>$wakandaManager.getCatalog()</code>
+      promise is resolved. This method will retrieve the catalog and exposes
+      the dataClasses of your data model on the <code>ds</code> object.
     </li>
     <li>
       All Angular-Wakanda methods that have an asynchronous treatment returns a <code>$promise</code> object containing

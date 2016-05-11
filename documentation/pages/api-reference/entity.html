@@ -84,6 +84,38 @@ ds.Person.$find(8).$promise.then(function (event) {
   });
 });</code></pre>
 
+<h3><code>$recompute()</code></h3>
+
+<p>
+  Execute server-side logic by simulating a save of the entity. The entity will
+  be modified the following way:
+</p>
+
+<ul>
+  <li>Calculated attributes are filled</li>
+  <li><code>init</code> event is triggered if <code>$recompute</code> is called on a new entity (eg. that has never been saved yet)</li>
+  <li><code>clientrefresh</code> event is triggered</li>
+</ul>
+
+<p>
+  The entity <strong>is not saved</strong>, and all server-side computation that
+  occured <strong>won't be persisted</strong>.
+</p>
+<p>
+  <code>$recompute()</code> method allows you to <em>preview</em> your entity as
+  if it were saved.
+</p>
+
+<pre><code class="language-javascript" prism>//Considering a Person dataClass with a fullName calculated attribute that is the concatenation of firstName and lastName
+var person = ds.Person.$create({
+  firstName: 'John',
+  lastName: 'Smith'
+});
+
+person.$recompute().$promise.then(function () {
+  person.fullName; //John Smith
+});</code></pre>
+
 <h3><code>$toJSON()</code></h3>
 
 <p>
@@ -118,10 +150,9 @@ ds.Person.$find(8).$promise.then(function (event) {
 });</code></pre>
 
 <p>
-  If the method returns an entity or a collection, you can transform it with
-  <code>$transform</code> helpers to add Angular-Wakanda framework methods like
-  <code>$fetch</code> or <code>$save</code> on it. Please refer to
-  <a href="#/doc/developer-guide/server-methods">this developer guide</a> for further information.
+  If the server method returns an entity or a collection, you will get an
+  Angular-Wakanda entity or collection, with thir methods like
+  <code>$fetch</code> or <code>$save</code> on it.
 </p>
 
 <doc-pagination page="{{currentPage}}" subpage="{{currentSubPage}}"></doc-pagination>

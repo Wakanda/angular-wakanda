@@ -6,9 +6,5 @@ $scope.uploadFile = function () {
   $scope.employee.photo.$upload(file).$promise.then(function (e) {
     //Photo is uploaded and accessible on the entity
     var photoUri = $scope.employee.photo.uri;
-
-    $scope.employee.$save().$promise.then(function () {
-      //Now employee is saved with its brand new photo
-    });
   });
 };
