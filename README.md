@@ -1,28 +1,25 @@
-# angular-wakanda
+# angular-wakanda - v1.1.0
 
 [![ angular-wakanda ](https://wakanda.github.io/angular-wakanda/images/angular-wakanda.png)](https://wakanda.github.io/angular-wakanda/)
 
 [![MIT Licensed](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](#license)
 
-
-*Wakanda® is a registered trademark of WAKANDA SAS in France and/or other countries. All other names mentioned may be trademarks or registered trademarks of their respective owners.*
-
 This repo is for distribution on `bower` and `npm`. You can check out [10 minutes quickstart](http://wakanda.github.io/angular-wakanda/#/doc/quickstart) to learn how to user angular-wakanda.
 
-The sources for this module are in the main [Wakanda/sources-angular-wakanda](https://github.com/Wakanda/sources-angular-wakanda) repo. Please file pull requests against that repo and issues on this repo : [Wakanda/wakanda-issues](https://github.com/Wakanda/wakanda-issues/labels/Angular-Wakanda).
+The sources for this module are in the main [Wakanda/sources-angular-wakanda](https://github.com/Wakanda/sources-angular-wakanda) repo. Please file pull requests against that repo and issues on  [Wakanda/wakanda-issues](https://github.com/Wakanda/wakanda-issues/labels/Angular-Wakanda).
 
 
 ## Install
 
 Install with [bower](http://bower.io):
 
-```shell
+```bash
 bower install angular-wakanda
 ```
 
 Or via npm
 
-```shell
+```bash
 npm install angular-wakanda
 ```
 
@@ -53,14 +50,15 @@ $wakanda.init().then(function (ds) {
 
 * [Home page, documentation and tutorial](https://wakanda.github.io/angular-wakanda/)
 * [Source repo](https://github.com/Wakanda/sources-angular-wakanda)
-* [Yeoman generator](https://www.npmjs.org/package/generator-angular-wakanda)
 * [Github issues](https://github.com/Wakanda/wakanda-issues/labels/Angular-Wakanda)
 
 ## License
 
+*Wakanda® is a registered trademark of WAKANDA SAS in France and/or other countries. All other names mentioned may be trademarks or registered trademarks of their respective owners.*
+
 *The MIT License*
 
-Copyright (c) 2015 WAKANDA S.A.S.
+Copyright (c) 2016 WAKANDA S.A.S.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

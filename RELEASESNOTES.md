@@ -1,7 +1,28 @@
 angular-wakanda.js - release notes
 ===================================================
 
-##V1.0.4
+## v1.1.0
+
+Angular-Wakanda now relies on [Wakanda-Client](https://github.com/Wakanda/wakanda-javascript-client) instead of WAF to perform communication with Wakanda Server's REST API.
+Angular-Wakanda API have been simplified, removing some old buggy methods, and other that could be ambiguous.
+
+### New features
+
+* Server methods that returns collection or entities now directly return Angular-Wakanda collections or entities. No need to call `$transform` helpers methods anymore.
+* Add `$recompute` method, to execute server-side logic (calculated attributes computation, `init` and `clientrefresh` events) on a local entity
+* Entity method `$isDeferred()` has been added, to check if an entity has been fetched or is deferred
+
+### API simplification
+
+* `$serverRefresh()` has been deleted. Deprecated since v1.0.2
+* `$transform.$objectToEntity()` is now deprecated, call to this method can be safely removed, as the transformation is automatic
+* `$transform.$objectToCollection()` is now deprecated, call to this method can be safely removed, as the transformation is automatic
+* Entity and collection attribute `$fetching` has been removed
+* Collection attribute `$queryParams.filter` has been removed
+* Parameter `mode` has been removed from collection `$fetch()` method. `$fetch()` always replace the collection content. To append more content to a collection, use `$more()` method.
+* Entity method `$isLoaded()` has been removed
+
+## v1.0.4
 * Fix a bug when calling `$create` without argument
 * Collection user defined methods are now available on every collections (queried, fetched and expanded)
 * Correct `angular` dependency on `bower.json` to avoid conflict on angular version
@@ -9,22 +30,22 @@ angular-wakanda.js - release notes
 * Wakanda Solution: correct authentication issue when stopping/reloading server
 * Example application, page `test8` correct invalid calls to `$transform` methods
 
-##V1.0.3
+## v1.0.3
 * $serverRefresh is now deprecated, a warning is displayed on console at each call
 * Update dataProvider to latest version
 * Optimize some unit test that were too slow
 
-##V1.0.2
+## v1.0.2
 * Fix issue with image upload
 * Fix issue with $toJSON method
 * Fix issue with with object attribute update on entity
 * Fix entity creation with related entity on $create parameter
 
-##v1.0.1
+## v1.0.1
 * Correct license in package.json
 * Add repository in package.json
 
-##v1.0.0
+## v1.0.0
 * **Breaking change:** `dataClass.$find()` has been renamed to `dataClass.$query()`
 * **Breaking change:** `dataClass.$findOne()` has been rename to `dataClass.$find()`
 * **Breaking change:** `collection.$find()` has been renamed to `collection.$query()`
