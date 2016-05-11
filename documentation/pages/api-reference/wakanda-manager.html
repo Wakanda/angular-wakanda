@@ -1,0 +1,163 @@
+<h1>$wakandaManager factory</h1>
+
+<h2>What is it?</h2>
+
+<p>
+  <code>$wakandaManager</code> is a factory to use Angular-Wakanda in an efficient way <strong>with
+  a router</strong> like <code>ui-router</code> or <code>ngRoute</code>. It provides some
+  helper methods, that returns promise, to be sure that some treatments are done,
+  or some conditions met, <strong>before the route resolves.</strong>
+</p>
+
+<p>
+  So, it allows you to prepare something to inject, like the dataStore, or to check
+  for authentication logic at route (or state for <code>ui-router</code>) level.
+</p>
+
+<p>
+  Moreover, <code>$wakandaManager</code> <strong>is the preferred way to use Angular-Wakanda</strong>,
+  as it permits to anticipate some changes made on <code>$wakanda</code> factory.
+  For now, <code>$wakanda</code> is a singleton, but it might change on the future.
+  In such case, <code>$wakandaManager</code> would allow you to manage <em>an instance</em>
+  of <code>$wakanda</code> in a more centralized way. But we are not here for now.
+</p>
+
+<h2>Methods</h2>
+
+<h3><code>getDatastore([catalog])</code></h3>
+
+<p>
+  The <code>getDatastore()</code> method returns a promise which contain the
+  Wakanda dataStore when resolving. It's the same that the one returned by
+  <code>$wakanda.init()</code>.
+</p>
+
+<pre><code class="language-javascript" prism>//Example with a resolve, with ui-router, on .config()
+app.config(function ($stateProvider) {
+  $stateProvider
+    .state('home', {
+      url: '/home',
+      controller: 'homeController',
+      templateUrl: 'home.html',
+      resolve: {
+        ds: function ($wakandaManager) {
+          //$wakandaManager will call $wakanda.init() for us and return its result
+          return $wakandaManager.getDataStore();
+        }
+      }
+    });
+});
+
+//On the controller, just inject the "ds" defined on the state resolve object
+app.controller('homeController', function ($scope, ds) {
+  //ds is ready to use
+});
+</code></pre>
+
+<p>
+  Although it meant to be used on a router, it can perfectly be used as is, like
+  one the example below.
+</p>
+
+<pre><code class="language-javascript" prism>//Simple call, not on a router
+$wakandaManager.getDatastore().then(function (ds) {
+  //use dataStore
+});</code></pre>
+
+<p>
+  The method takes an optional <code>catalog</code> parameter, which will be
+  passed to <code>$wakanda.init()</code> call. See
+  <a href="#/doc/api-reference/wakanda-service">its documentation</a> for more details.
+</p>
+
+<h3><code>currentUser()</code></h3>
+
+<p>
+  The <code>currentUser()</code> method returns a promise which contains the curerrently
+  logged in user, if any. In other case, the promise is rejected. It's really
+  useful when defining a route which is not supposed to be access by an non-logged in
+  visitor.
+</p>
+
+<pre><code class="language-javascript" prism>//Example with a resolve with ui-router.
+//If the promise is rejected, the route won't be resolved
+app.config(function ($stateProvider) {
+  $stateProvider
+    .state('profile', {
+      url: '/profile',
+      controller: 'profileController',
+      templateUrl: 'profile.html',
+      resolve: {
+        user: function ($wakandaManager) {
+          //Here, the route won't resolve is the user is not logged
+          return $wakandaManager.currentUser();
+        }
+      }
+    });
+});
+
+//On the controller, you can inject the "user" defined on the resolved state object
+app.controller('profileController', function ($scope, user) {
+
+  //Arriving on the controller, we are sure that user is logged
+  $scope.userInfo = user;
+  console.log(user);
+});</code></pre>
+
+<p>
+  Although it meant to be used on a router, it can perfectly be used as is, like
+  one the example below. It will act like <code>$wakanda.$currentUser()</code>,
+  but <strong>if there is no logged in user, promise will be rejected</strong>, instead of being
+  resolved with a <code>null</code> value.
+</p>
+
+<pre><code class="language-javascript" prism>//Simple call, not a router
+$wakandaManager.currentUser().then(function (u) {
+  //u.userName, u.fullName, u.ID
+});</code></pre>
+
+<h3><code>currentUserBelongsTo(groupName)</code></h3>
+
+<p>
+  The <code>currentUserBelongsTo()</code> method returns a promise which contains
+  true if the logged in user belongs to the group passed on <code>groupName</code> parameter.
+  If there is not logged in user, or if the user doesn't belong to the specified
+  group, the promise is rejected. It's very handy when used on a router.
+</p>
+
+<pre><code class="language-javascript" prism>//Example with a resolve with ui-router.
+//If the promise is rejected, the route won't be resolved
+app.config(function ($stateProvider) {
+  $stateProvider
+    .state('admin-panel', {
+      url: '/admin-panel',
+      controller: 'adminPanelController',
+      templateUrl: 'admin-panel.html',
+      resolve: {
+        isAdmin: function ($wakandaManager) {
+          //Here, the route won't resolve is the user is not logged
+          return $wakandaManager.currentUserBelongsTo('Admin');
+        }
+      }
+    });
+});
+
+//On the controller, we do not inject the isAdmin defined on the resolve state object, as it doesn't carry useful information
+app.controller('adminPanelController', function ($scope) {
+  //Arriving on the controller, we are sure that user is logged in, and a member of Admin group
+});</code></pre>
+
+<p>
+  Although it meant to be used on a router, it can perfectly be used as is, like
+  one the example below. It will act like <code>$wakanda.$currentUserBelongsTo()</code>,
+  but <strong>if there is no logged in user, or if it doesn't belong to specified group,
+  promise will be rejected</strong>, instead of being resolved with a
+  <code>false</code> value.
+</p>
+
+<pre><code class="language-javascript" prism>//Simple call, not a router
+$wakandaManager.currentUserBelongsTo('Admin').then(function () {
+  //Current user is an Admin
+});</code></pre>
+
+<doc-pagination page="{{currentPage}}" subpage="{{currentSubPage}}"></doc-pagination>

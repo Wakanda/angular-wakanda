@@ -54,7 +54,7 @@ angular.module('angular-wakanda-website')
               page: 'image-upload'
             },
             {
-              name: 'Server methods and $transform',
+              name: 'Server methods and $transform (deprecated)',
               url: '#/doc/developer-guide/server-methods',
               parentPage: 'developer-guide',
               page: 'server-methods'
@@ -83,6 +83,12 @@ angular.module('angular-wakanda-website')
               url: '#/doc/api-reference/wakanda-service',
               parentPage: 'api-reference',
               page: 'wakanda-service'
+            },
+            {
+              name: '$wakandaManager factory',
+              url: '#/doc/api-reference/wakanda-manager',
+              parentPage: 'api-reference',
+              page: 'wakanda-manager'
             },
             {
               name: '$wakandaConfig provider',

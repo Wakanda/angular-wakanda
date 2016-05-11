@@ -37,36 +37,20 @@ $scope.firstSeller = products[0].seller;</code></pre>
   persons.$totalCount; //1136
 });</code></pre>
 
-<h3><code>$fetching</code></h3>
-
-<p>
-  Boolean indicating if collection is fetching or not. Automatically updated by the connector.
-  It is set to <code>false</code> at the end of the HTTP request.
-</p>
-
-<pre><code class="language-javascript" prism>var collection = ds.Person.$all();
-collection.$fetching; //true
-
-//after a moment
-collection.$fetching; //false</code></pre>
-
 <h3><code>$queryParams</code></h3>
 
 <p>
   Contain the state of the collection initial fetch request.
 </p>
 <pre><code class="language-javascript" prism>products.$queryParams.pageSize;
-products.$queryParams.start;
-products.$queryParams.filter;</code></pre>
+products.$queryParams.start;</code></pre>
 
 <h3>Retrieving data</h3>
-<h3><code>$fetch([options], [mode])</code></h3>
+<h3><code>$fetch([options])</code></h3>
 
 <p>
   Retrieves entities from the server on the same entity collection. <strong>It modifies the
-  current collection</strong> when ends, either replacing entities or appending the, according
-  to the value of <code>mode</code> parameter. It accepts <code>append</code> and
-  <code>replace</code>. If no one is supplied, <code>replace</code> is the default mode.
+  current collection</strong> when ends by replacing the entities with the newly fetched.
 </p>
 <p>
   Called without parameters, <code>fetch()</code>
@@ -101,43 +85,6 @@ products.$fetch({
 }).$promise.then(function () {
   //products is updated
 });</code></pre>
-
-<h3><code>$query(options)</code></h3>
-
-<p>
-  Retrives entites from the server in the same entity collection matching the options given,
-  like <code>$fetch()</code> method, but <strong>returns a new collection</strong>.<br />
-  <code>options</code> can have the following properties :
-  <ul>
-    <li>
-      <code>filter</code>: query string that give conditions for entity retrieval. It can
-      contain placeholder which value is set on <code>params</code> options
-    </li>
-    <li>
-      <code>params</code>: array of data to substitute the placeholders presents in
-      <code>filter</code> parameter
-    </li>
-    <li>
-      <code>pageSize</code>: number of entities in each page of the returned collection
-    </li>
-    <li>
-      <code>start</code>: number of element to skip
-    </li>
-    <li>
-      <code>orderBy</code>: string describing attribute and direction to sort entities
-    </li>
-    <li>
-      <code>select</code>: comma-separated string describing the related attributes to expand
-    </li>
-  </ul>
-</p>
-
-<pre><code class="language-javascript" prism>employees.$query({
-  filter: 'status = :1',
-  params: ['intern']
-}).$promise.then(function (event) {
-  var interns = event.result;
-})</code></pre>
 
 <h3>Paging</h3>
 
@@ -227,10 +174,9 @@ $scope.displayMore = function () {
 });</code></pre>
 
 <p>
-  If the method returns an entity or a collection, you can transform it with
-  <code>$transform</code> helpers to add Angular-Wakanda framework methods like
-  <code>$fetch</code> or <code>$save</code> on it. Please refer to
-  <a href="#/doc/developer-guide/server-methods">this developer guide</a> for further information.
+  If the server method returns an entity or a collection, you will get an
+  Angular-Wakanda entity or collection, with thir methods like
+  <code>$fetch</code> or <code>$save</code> on it.
 </p>
 
 <doc-pagination page="{{currentPage}}" subpage="{{currentSubPage}}"></doc-pagination>

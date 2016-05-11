@@ -1,5 +1,5 @@
-app.controller('TodoController', function($scope, WakandaManager) {
-  WakandaManager.ready().then(function() {
+app.controller('TodoController', function($scope, $wakandaManager) {
+  $wakandaManager.getCatalog().then(function(ds) {
     /* ... */
 
     $scope.checkItem = function(item) {
