@@ -1,4 +1,4 @@
-# angular-wakanda - v1.1.0
+# angular-wakanda - v1.1.1
 
 [![ angular-wakanda ](https://wakanda.github.io/angular-wakanda/images/angular-wakanda.png)](https://wakanda.github.io/angular-wakanda/)
 
